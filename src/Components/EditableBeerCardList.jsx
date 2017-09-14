@@ -8,8 +8,10 @@ function EditableBeerCardList(props) {
       key={beer.id}
       {...beer}
       onBeerCardCreate={props.onBeerCardCreate}
+      onBeerCardEdit={props.onBeerCardEdit}
+      onBeerCardDelete={props.onBeerCardDelete}
     />
-    ));
+  ));
   return <div>{cards}</div>;
 }
 

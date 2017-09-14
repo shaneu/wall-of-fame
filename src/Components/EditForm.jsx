@@ -29,11 +29,12 @@ class EditForm extends React.Component<void, Props, void> {
     event.preventDefault();
 
     const userInput = {
+      id: this.props.id,
       notes: this.state.notes,
       rating: this.state.rating,
     };
 
-    this.props.onClickAction(userInput);
+    this.props.onSubmitAction(userInput);
   };
 
   render() {

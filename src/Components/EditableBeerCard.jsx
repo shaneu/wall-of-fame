@@ -1,6 +1,7 @@
 // @ flow
 
 import * as React from 'react';
+import ActionButtons from './ActionButtons';
 import BeerCard from './BeerCard';
 import EditForm from './EditForm';
 import { formatBeerToSubmit } from '../client-helpers';
@@ -39,14 +40,30 @@ class EditableBeerCard extends React.Component<void, Props, void> {
     this.props.onBeerCardCreate(beerToSubmit);
   };
 
+  handleBeerCardEdit = userInput => {
+    this.showEditForm();
+    this.props.onBeerCardEdit(userInput);
+  };
+
+  handleDelete = () => {
+    this.props.onBeerCardDelete(this.props.id);
+  };
+
   render() {
-    const buttonText = this.props.dateAdded ? 'Edit' : 'Add';
     if (this.state.showEditForm) {
+      let onSubmitAction;
+      if (this.props.dateAdded) {
+        onSubmitAction = this.handleBeerCardEdit;
+      } else {
+        onSubmitAction = this.handleBeerCardAdd;
+      }
+
       return (
         <div>
           <EditForm
+            id={this.props.id}
             onCancelClick={this.showEditForm}
-            onClickAction={this.handleBeerCardAdd}
+            onSubmitAction={onSubmitAction}
           />
         </div>
       );
@@ -55,7 +72,11 @@ class EditableBeerCard extends React.Component<void, Props, void> {
     return (
       <div>
         <BeerCard {...this.props} />
-        <button onClick={this.showEditForm}>{buttonText}</button>
+        <ActionButtons
+          showEditButton={!!this.props.dateAdded}
+          onEditClick={this.showEditForm}
+          onDeleteClick={this.handleDelete}
+        />
       </div>
     );
   }

@@ -3,7 +3,12 @@
 
 import * as React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { addBeerToDB, getBeersFromDB, updateBeer } from './client-helpers';
+import {
+  addBeerToDB,
+  getBeersFromDB,
+  updateBeer,
+  deleteBeer,
+} from './client-helpers';
 import CheckedInDashBoard from './Components/CheckedInDashBoard';
 import SearchDashBoard from './Components/SearchDashBoard';
 import Header from './Components/Header';
@@ -37,18 +42,26 @@ class App extends React.Component {
     addBeerToDB(beer);
   };
 
-  // editBeer = (attrs: Beer) => {
-  //   this.setState({
-  //     beers: this.state.beers.map(beer => {
-  //       if (beer.id === beerToEdit.id) {
-  //         return Object.assign({}, beer, attrs)
-  //       }
-  //       return beer;
-  //     })
-  //   })
+  editBeer = (userInput: { id: number, rating: string, notes: string }) => {
+    this.setState({
+      beers: this.state.beers.map(beer => {
+        if (beer.id === userInput.id) {
+          return Object.assign({}, beer, userInput);
+        }
+        return beer;
+      }),
+    });
 
-  //   updateBeer(beer);
-  // };
+    updateBeer(userInput);
+  };
+
+  deleteBeer = beerCardId => {
+    this.setState({
+      beers: this.state.beers.filter(beer => beer.id !== beerCardId),
+    });
+
+    deleteBeer(beerCardId);
+  };
 
   render() {
     return (
@@ -60,7 +73,12 @@ class App extends React.Component {
               <Route
                 path="/"
                 exact
-                render={() => <CheckedInDashBoard beers={this.state.beers} />}
+                render={() =>
+                  (<CheckedInDashBoard
+                    beers={this.state.beers}
+                    onBeerCardEdit={this.editBeer}
+                    onBeerCardDelete={this.deleteBeer}
+                  />)}
               />
               <Route
                 path="/search"

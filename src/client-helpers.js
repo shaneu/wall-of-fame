@@ -25,10 +25,10 @@ export function getBeersFromDB(sucess) {
     .then(sucess);
 }
 
-export function updateBeer(beer) {
+export function updateBeer(userInput) {
   fetch('/api/beers', {
     method: 'put',
-    body: JSON.stringify(beer),
+    body: JSON.stringify(userInput),
     headers: {
       Accept: 'application/json',
       'Content-type': 'application/json',
