@@ -15,8 +15,8 @@ const DATA_FILE = path.join(__dirname, 'data.json');
 app.get('/api/beers', (req, res) => {
   fs.readFile(DATA_FILE, (err, data) => {
     if (err) throw err;
-
-    res.json(JSON.parse(data));
+    const parsedData = JSON.parse(data);
+    res.json(parsedData);
   });
 });
 
@@ -40,6 +40,18 @@ app.put('/api/beers', (req, res) => {
       return beer;
     });
     fs.writeFile(DATA_FILE, JSON.stringify(updatedBeers, null, 2), () =>
+      res.json({}),
+    );
+  });
+});
+
+app.post('/api/beers', (req, res) => {
+  fs.readFile(DATA_FILE, (err, data) => {
+    if (err) throw err;
+    const beers = JSON.parse(data);
+    const addedBeer = beers.concat(req.body.beer);
+
+    fs.writeFile(DATA_FILE, JSON.stringify(addedBeer, null, 2), () =>
       res.json({}),
     );
   });

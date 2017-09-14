@@ -3,6 +3,7 @@
 
 import * as React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { addBeerToDB, getBeersFromDB, updateBeer } from './client-helpers';
 import CheckedInDashBoard from './Components/CheckedInDashBoard';
 import SearchDashBoard from './Components/SearchDashBoard';
 import Header from './Components/Header';
@@ -25,11 +26,29 @@ class App extends React.Component {
     beers: [],
   };
 
+  componentDidMount = () => {
+    getBeersFromDB(response => this.setState({ beers: response }));
+  };
+
   createBeerCard = (beer: Beer) => {
     this.setState({
       beers: this.state.beers.concat(beer),
     });
+    addBeerToDB(beer);
   };
+
+  // editBeer = (attrs: Beer) => {
+  //   this.setState({
+  //     beers: this.state.beers.map(beer => {
+  //       if (beer.id === beerToEdit.id) {
+  //         return Object.assign({}, beer, attrs)
+  //       }
+  //       return beer;
+  //     })
+  //   })
+
+  //   updateBeer(beer);
+  // };
 
   render() {
     return (

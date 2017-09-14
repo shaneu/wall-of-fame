@@ -1,0 +1,41 @@
+[
+  {
+    "abv": 8,
+    "brewery": "Russian River Brewing Company",
+    "description": "A true leader in the hop-wars of the west coast, Pliny the Elder hits you over the head with hoppy bitterness and manages to smooth the rough edges out enough to become an enjoyable brew.",
+    "ibu": 100,
+    "id": 4499,
+    "imgUrl": "https://untappd.akamaized.net/site/beer_logos/beer-4499_dc04a_sm.jpeg",
+    "name": "Pliny the Elder",
+    "style": "IPA - Imperial / Double",
+    "dateAdded": "9/14/2017",
+    "notes": "Great WC IPA",
+    "rating": "4"
+  },
+  {
+    "abv": 7.2,
+    "brewery": "El Segundo Brewing Company",
+    "description": "100% Mosaic IPA",
+    "ibu": 51,
+    "id": 531649,
+    "imgUrl": "https://untappd.akamaized.net/site/beer_logos/beer-531649_36f63_sm.jpeg",
+    "name": "Mayberry IPA",
+    "style": "IPA - American",
+    "dateAdded": "9/14/2017",
+    "notes": "Great WC IPA",
+    "rating": "4"
+  },
+  {
+    "abv": 6.2,
+    "brewery": "Lagunitas Brewing Company",
+    "description": "This is our unique version of an ancient style. A style as old as the ocean trade routes of the last centuries Great Ships. Not as old as the equator they had to cross twice enroute",
+    "ibu": 46,
+    "id": 4509,
+    "imgUrl": "https://untappd.akamaized.net/site/beer_logos/beer-4509_1ce65_sm.jpeg",
+    "name": "IPA",
+    "style": "IPA - American",
+    "dateAdded": "9/14/2017",
+    "notes": "Terrible",
+    "rating": "1"
+  }
+]

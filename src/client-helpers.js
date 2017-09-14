@@ -5,7 +5,7 @@ function checkStatus(response) {
     return response;
   }
 
-  const error = new Error();
+  const error = new Error(`Http error ${response.status}`);
   error.status = response.statusText;
   throw error;
 }
@@ -14,7 +14,7 @@ function parseJSON(response) {
   return response.json();
 }
 
-export function getBeers(sucess) {
+export function getBeersFromDB(sucess) {
   fetch('/api/beers', {
     headers: {
       Accept: 'application/json',
@@ -25,10 +25,10 @@ export function getBeers(sucess) {
     .then(sucess);
 }
 
-export function updateBeer(data) {
+export function updateBeer(beer) {
   fetch('/api/beers', {
     method: 'put',
-    body: JSON.stringify(data),
+    body: JSON.stringify(beer),
     headers: {
       Accept: 'application/json',
       'Content-type': 'application/json',
@@ -40,6 +40,17 @@ export function deleteBeer(id) {
   fetch('api/beers', {
     method: 'delete',
     body: JSON.stringify({ id }),
+    headers: {
+      Accept: 'application/json',
+      'Content-type': 'application/json',
+    },
+  }).then(checkStatus);
+}
+
+export function addBeerToDB(...beer) {
+  fetch('/api/beers', {
+    method: 'post',
+    body: JSON.stringify({ beer }),
     headers: {
       Accept: 'application/json',
       'Content-type': 'application/json',
