@@ -1,7 +1,8 @@
 const fetch = require('node-fetch');
+const env = require('./app-env');
 
-const clientId = 'D0B24A1296C1C8AFFD91F388EAFA5876CAE45792';
-const clientSecret = '40DDC7CE687D34D0F5E9B84891A0248A3F4DA416';
+const clientId = env.UNTAPPD_CLIENT_ID;
+const clientSecret = env.UNTAPPD_CLIENT_SECRET;
 const queryParams = `&client_id=${clientId}&client_secret=${clientSecret}`;
 const searchURI = 'https://api.untappd.com/v4/search/beer?q=';
 

@@ -16,13 +16,9 @@ let db;
 MongoClient.connect(mongoURI)
   .then(connection => {
     db = connection;
-    app.listen(app.get('port'), () =>
-      console.log(
-        `Api server is running on http://localhost:${app.get('port')}`,
-      ),
-    );
+    app.listen(app.get('port'), () => console.log(`Api server is running on http://localhost:${app.get('port')}`)); // eslint-disable-line no-console
   })
-  .catch(error => console.log(`Error in mongodb: ${error}`));
+  .catch(error => console.log(`Error in mongodb: ${error}`)); // eslint-disable-line no-console
 
 app.get('/api/beers', (req, res) => {
   db
@@ -48,10 +44,7 @@ app.get('/api/beers/search/:beer', (req, res) => {
 app.put('/api/beers', (req, res) => {
   db
     .collection('usersBeers')
-    .update(
-      { id: req.body.id },
-      { $set: { rating: req.body.rating, notes: req.body.notes } },
-    )
+    .update({ id: req.body.id }, { $set: { rating: req.body.rating, notes: req.body.notes } })
     .then(response => res.json(response.result))
     .catch(error => {
       console.log(error); // eslint-disable-line no-console

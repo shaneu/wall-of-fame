@@ -31,7 +31,7 @@ function parseJSON(response) {
   return response.json();
 }
 
-export function getBeersFromDB(sucess: Function) {
+export function getBeersFromDB(sucess: Function): void {
   fetch('/api/beers', {
     headers: {
       Accept: 'application/json',
@@ -42,11 +42,7 @@ export function getBeersFromDB(sucess: Function) {
     .then(sucess);
 }
 
-export function updateBeer(userInput: {
-  id: number,
-  rating: string,
-  notes: string,
-}) {
+export function updateBeer(userInput: { id: number, rating: string, notes: string }): void {
   fetch('/api/beers', {
     method: 'put',
     body: JSON.stringify(userInput),
