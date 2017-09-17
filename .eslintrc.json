@@ -1,6 +1,9 @@
 {
   "parser": "babel-eslint",
-  "extends": ["airbnb", "prettier"],
+  "extends": ["airbnb", "prettier", "prettier/react"],
+  "rules": {
+    "no-underscore-dangle": ["error", { "allow": ["_id"] }]
+  },
   "plugins": ["react", "jsx-a11y", "import"],
   "env": {
     "browser": true,

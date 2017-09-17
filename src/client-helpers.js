@@ -1,4 +1,21 @@
+// @ flow
+
 import queryString from 'query-string';
+
+type Beer = {
+  _id?: string,
+  abv: number,
+  brewery: string,
+  dateAdded: string,
+  description: string,
+  id: number,
+  ibu: number,
+  imgUrl: string,
+  name: string,
+  notes: string,
+  rating: string,
+  style: string,
+};
 
 function checkStatus(response) {
   if (response.status === 200) {
@@ -14,7 +31,7 @@ function parseJSON(response) {
   return response.json();
 }
 
-export function getBeersFromDB(sucess) {
+export function getBeersFromDB(sucess: Function) {
   fetch('/api/beers', {
     headers: {
       Accept: 'application/json',
@@ -25,7 +42,11 @@ export function getBeersFromDB(sucess) {
     .then(sucess);
 }
 
-export function updateBeer(userInput) {
+export function updateBeer(userInput: {
+  id: number,
+  rating: string,
+  notes: string,
+}) {
   fetch('/api/beers', {
     method: 'put',
     body: JSON.stringify(userInput),
@@ -36,7 +57,7 @@ export function updateBeer(userInput) {
   }).then(checkStatus);
 }
 
-export function deleteBeer(id) {
+export function deleteBeer(id: number) {
   fetch('api/beers', {
     method: 'delete',
     body: JSON.stringify({ id }),
@@ -47,10 +68,10 @@ export function deleteBeer(id) {
   }).then(checkStatus);
 }
 
-export function addBeerToDB(...beer) {
+export function addBeerToDB(beer: Beer) {
   fetch('/api/beers', {
     method: 'post',
-    body: JSON.stringify({ beer }),
+    body: JSON.stringify(beer),
     headers: {
       Accept: 'application/json',
       'Content-type': 'application/json',

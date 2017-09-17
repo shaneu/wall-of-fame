@@ -3,7 +3,28 @@
 import * as React from 'react';
 import EditableBeerCardList from './EditableBeerCardList';
 
-function CheckedInDashBoard(props) {
+type Beer = {
+  _id?: string,
+  abv: number,
+  brewery: string,
+  dateAdded: string,
+  description: string,
+  id: number,
+  ibu: number,
+  imgUrl: string,
+  name: string,
+  notes: string,
+  rating: string,
+  style: string,
+};
+
+type Props = {
+  beers: Array<Beer>,
+  onBeerCardDelete: Function,
+  onBeerCardEdit: Function,
+};
+
+function CheckedInDashBoard(props: Props) {
   return (
     <div>
       <h2>Checked In Beers</h2>

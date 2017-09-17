@@ -29,9 +29,9 @@ class SearchDashBoard extends React.Component<void, Props, void> {
   };
 
   searchForBeer = beer => {
-    searchBeer(beer).then(response =>
-      this.setState({ searchResults: response }),
-    );
+    searchBeer(beer).then(response => {
+      this.setState({ searchResults: response });
+    });
   };
 
   handleBeerSearch = (query = this.props.location.search) => {

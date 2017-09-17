@@ -4,6 +4,7 @@ import * as React from 'react';
 
 type Props = {
   abv: string,
+  brewery: string,
   dateAdded: string,
   description: string,
   ibu: string,
@@ -18,6 +19,7 @@ function BeerCard(props: Props) {
   return (
     <div>
       <h2>{props.name}</h2>
+      <p>{props.brewery}</p>
       <img alt="beer label" src={props.imgUrl} />
       <h3>Description:</h3>
       <p>{props.description}</p>

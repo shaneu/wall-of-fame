@@ -6,6 +6,7 @@
     "body-parser": "^1.18.0",
     "express": "^4.15.4",
     "flow-bin": "^0.54.1",
+    "mongodb": "^2.2.31",
     "node-fetch": "^1.7.3",
     "query-string": "^5.0.0",
     "react": "^15.6.1",
@@ -28,7 +29,8 @@
     "start": "react-scripts start & nodemon server.js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "nodemon server.js"
   },
   "proxy": "http://localhost:3001"
 }

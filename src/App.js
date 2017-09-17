@@ -14,7 +14,9 @@ import SearchDashBoard from './Components/SearchDashBoard';
 import Header from './Components/Header';
 
 type Beer = {
+  _id?: string,
   abv: number,
+  brewery: string,
   dateAdded: string,
   description: string,
   id: number,
@@ -26,13 +28,23 @@ type Beer = {
   style: string,
 };
 
-class App extends React.Component {
+type State = {
+  beers: Array<Beer>,
+};
+
+class App extends React.Component<void, State> {
   state = {
     beers: [],
   };
 
   componentDidMount = () => {
-    getBeersFromDB(response => this.setState({ beers: response }));
+    getBeersFromDB(
+      (response: { _metadata: number, checkedInBeers: Beer | Array<Beer> }) => {
+        this.setState({
+          beers: this.state.beers.concat(response.checkedInBeers),
+        });
+      },
+    );
   };
 
   createBeerCard = (beer: Beer) => {
@@ -55,9 +67,9 @@ class App extends React.Component {
     updateBeer(userInput);
   };
 
-  deleteBeer = beerCardId => {
+  deleteBeer = (beerCardId: number) => {
     this.setState({
-      beers: this.state.beers.filter(beer => beer.id !== beerCardId),
+      beers: this.state.beers.filter((beer: Beer) => beer.id !== beerCardId),
     });
 
     deleteBeer(beerCardId);
@@ -73,20 +85,22 @@ class App extends React.Component {
               <Route
                 path="/"
                 exact
-                render={() =>
-                  (<CheckedInDashBoard
+                render={() => (
+                  <CheckedInDashBoard
                     beers={this.state.beers}
                     onBeerCardEdit={this.editBeer}
                     onBeerCardDelete={this.deleteBeer}
-                  />)}
+                  />
+                )}
               />
               <Route
                 path="/search"
-                render={props =>
-                  (<SearchDashBoard
+                render={props => (
+                  <SearchDashBoard
                     onBeerCardCreate={this.createBeerCard}
                     {...props}
-                  />)}
+                  />
+                )}
               />
             </Switch>
           </div>

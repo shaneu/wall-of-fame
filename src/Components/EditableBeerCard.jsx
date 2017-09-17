@@ -15,6 +15,9 @@ type Props = {
   imgUrl: string,
   name: string,
   notes?: string,
+  onBeerCardCreate: Function,
+  onBeerCardDelete: Function,
+  onBeerCardEdit: Function,
   rating?: string,
   style: string,
 };
