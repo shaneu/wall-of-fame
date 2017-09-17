@@ -68,7 +68,7 @@ export function deleteBeer(id: number) {
   }).then(checkStatus);
 }
 
-export function addBeerToDB(beer: Beer) {
+export function addBeerToDB(beer: Beer, sucess: Function) {
   fetch('/api/beers', {
     method: 'post',
     body: JSON.stringify(beer),
@@ -76,7 +76,10 @@ export function addBeerToDB(beer: Beer) {
       Accept: 'application/json',
       'Content-type': 'application/json',
     },
-  }).then(checkStatus);
+  })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(sucess);
 }
 
 export function searchBeer(beer) {

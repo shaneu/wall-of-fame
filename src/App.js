@@ -48,10 +48,11 @@ class App extends React.Component<void, State> {
   };
 
   createBeerCard = (beer: Beer) => {
-    this.setState({
-      beers: this.state.beers.concat(beer),
-    });
-    addBeerToDB(beer);
+    addBeerToDB(beer, response =>
+      this.setState({
+        beers: this.state.beers.concat(response),
+      }),
+    );
   };
 
   editBeer = (userInput: { id: number, rating: string, notes: string }) => {

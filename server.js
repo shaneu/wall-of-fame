@@ -63,7 +63,14 @@ app.post('/api/beers', (req, res) => {
   db
     .collection('usersBeers')
     .insertOne(req.body)
-    .then(response => res.json(response.result))
+    .then(result =>
+      db
+        .collection('usersBeers')
+        .find({ _id: result.insertedId })
+        .limit(1)
+        .next(),
+    )
+    .then(newBeer => res.json(newBeer))
     .catch(error => {
       console.log(error); // eslint-disable-line no-console
       res.status(500).json({ message: `Internal server error: ${error}` });
