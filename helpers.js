@@ -3,7 +3,7 @@ const env = require('./app-env');
 
 const clientId = env.UNTAPPD_CLIENT_ID;
 const clientSecret = env.UNTAPPD_CLIENT_SECRET;
-const queryParams = `&client_id=${clientId}&client_secret=${clientSecret}`;
+const authParams = `&client_id=${clientId}&client_secret=${clientSecret}`;
 const searchURI = 'https://api.untappd.com/v4/search/beer?q=';
 
 function parseJSON(response) {
@@ -31,7 +31,7 @@ module.exports = function searchBeer(beer) {
       'Content-type': 'application/json',
     },
   };
-  const uri = `${searchURI}${beer}${queryParams}`;
+  const uri = `${searchURI}${beer}${authParams}`;
   return fetch(uri, init)
     .then(parseJSON)
     .then(format)
