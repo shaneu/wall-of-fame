@@ -3,12 +3,7 @@
 
 import * as React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import {
-  addBeerToDB,
-  getBeersFromDB,
-  updateBeer,
-  deleteBeer,
-} from './client-helpers';
+import { addBeerToDB, getBeersFromDB, updateBeer, deleteBeer } from './client-helpers';
 import CheckedInDashBoard from './Components/CheckedInDashBoard';
 import SearchDashBoard from './Components/SearchDashBoard';
 import Header from './Components/Header';
@@ -30,21 +25,22 @@ type Beer = {
 
 type State = {
   beers: Array<Beer>,
+  total: number,
 };
 
 class App extends React.Component<void, State> {
   state = {
     beers: [],
+    total: 0,
   };
 
   componentDidMount = () => {
-    getBeersFromDB(
-      (response: { _metadata: number, checkedInBeers: Beer | Array<Beer> }) => {
-        this.setState({
-          beers: this.state.beers.concat(response.checkedInBeers),
-        });
-      },
-    );
+    getBeersFromDB((response: { _metadata: number, checkedInBeers: Beer | Array<Beer> }) => {
+      this.setState({
+        beers: this.state.beers.concat(response.checkedInBeers),
+        total: response._metadata.total_count,
+      });
+    });
   };
 
   createBeerCard = (beer: Beer) => {
@@ -88,7 +84,7 @@ class App extends React.Component<void, State> {
                 exact
                 render={() => (
                   <CheckedInDashBoard
-                    beers={this.state.beers}
+                    usersBeerInfo={this.state}
                     onBeerCardEdit={this.editBeer}
                     onBeerCardDelete={this.deleteBeer}
                   />
@@ -96,12 +92,7 @@ class App extends React.Component<void, State> {
               />
               <Route
                 path="/search"
-                render={props => (
-                  <SearchDashBoard
-                    onBeerCardCreate={this.createBeerCard}
-                    {...props}
-                  />
-                )}
+                render={props => <SearchDashBoard onBeerCardCreate={this.createBeerCard} {...props} />}
               />
             </Switch>
           </div>

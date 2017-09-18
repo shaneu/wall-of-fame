@@ -56,13 +56,7 @@ app.post('/api/beers', (req, res) => {
   db
     .collection('usersBeers')
     .insertOne(req.body)
-    .then(result =>
-      db
-        .collection('usersBeers')
-        .find({ _id: result.insertedId })
-        .limit(1)
-        .next(),
-    )
+    .then(result => db.collection('usersBeers').findOne({ _id: result.insertedId }))
     .then(newBeer => res.json(newBeer))
     .catch(error => {
       console.log(error); // eslint-disable-line no-console

@@ -113,3 +113,17 @@ export function parseQueryString(qString) {
   const query = queryString.parse(qString);
   return query.q;
 }
+
+export function getNumberOfKeys(obj) {
+  return Object.keys(obj).length;
+}
+
+export function individualBeerTotals(beers) {
+  return beers.reduce((acc, cur) => {
+    if (!acc[cur.id]) {
+      acc[cur.id] = 0;
+    }
+    acc[cur.id] += 1;
+    return acc;
+  }, {});
+}

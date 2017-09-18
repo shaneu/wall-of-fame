@@ -20,6 +20,7 @@ function BeerCard(props: Props) {
     <div>
       <h2>{props.name}</h2>
       <p>{props.brewery}</p>
+      <p>Your checkins: {props.checkInTotal}</p>
       <img alt="beer label" src={props.imgUrl} />
       <h3>Description:</h3>
       <p>{props.description}</p>
