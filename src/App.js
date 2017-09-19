@@ -3,12 +3,7 @@
 
 import * as React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import {
-  addBeerToDB,
-  getBeersFromDB,
-  updateBeer,
-  deleteBeer,
-} from './client-helpers';
+import { addBeerToDB, getBeersFromDB, updateBeer, deleteBeer } from './client-helpers';
 import CheckedInDashBoard from './Components/CheckedInDashBoard';
 import SearchDashBoard from './Components/SearchDashBoard';
 import Header from './Components/Header';
@@ -38,13 +33,11 @@ class App extends React.Component<void, State> {
   };
 
   componentDidMount = () => {
-    getBeersFromDB(
-      (response: { _metadata: number, checkedInBeers: Beer | Array<Beer> }) => {
-        this.setState({
-          beers: this.state.beers.concat(response.checkedInBeers),
-        });
-      },
-    );
+    getBeersFromDB((response: { _metadata: number, checkedInBeers: Beer | Array<Beer> }) => {
+      this.setState({
+        beers: this.state.beers.concat(response.checkedInBeers),
+      });
+    });
   };
 
   createBeerCard = (beer: Beer) => {
@@ -78,35 +71,28 @@ class App extends React.Component<void, State> {
 
   render() {
     return (
-      <div>
-        <BrowserRouter>
-          <div>
-            <Header {...this.props} />
-            <Switch>
-              <Route
-                path="/"
-                exact
-                render={() => (
-                  <CheckedInDashBoard
-                    beers={this.state.beers}
-                    onBeerCardEdit={this.editBeer}
-                    onBeerCardDelete={this.deleteBeer}
-                  />
-                )}
-              />
-              <Route
-                path="/search"
-                render={props => (
-                  <SearchDashBoard
-                    onBeerCardCreate={this.createBeerCard}
-                    {...props}
-                  />
-                )}
-              />
-            </Switch>
-          </div>
-        </BrowserRouter>
-      </div>
+      <BrowserRouter>
+        <div>
+          <Route render={({ history }) => <Header {...history} />} />
+          <Switch>
+            <Route
+              path="/"
+              exact
+              render={() => (
+                <CheckedInDashBoard
+                  beers={this.state.beers}
+                  onBeerCardEdit={this.editBeer}
+                  onBeerCardDelete={this.deleteBeer}
+                />
+              )}
+            />
+            <Route
+              path="/search"
+              render={props => <SearchDashBoard onBeerCardCreate={this.createBeerCard} {...props} />}
+            />
+          </Switch>
+        </div>
+      </BrowserRouter>
     );
   }
 }

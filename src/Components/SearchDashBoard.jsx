@@ -42,10 +42,7 @@ class SearchDashBoard extends React.Component<void, Props, void> {
   render() {
     return (
       <div>
-        <EditableBeerCardList
-          beers={this.state.searchResults}
-          onBeerCardCreate={this.props.onBeerCardCreate}
-        />
+        <EditableBeerCardList beers={this.state.searchResults} onBeerCardCreate={this.props.onBeerCardCreate} />
       </div>
     );
   }
