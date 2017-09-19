@@ -38,7 +38,10 @@ class App extends React.Component<void, State> {
     getBeersFromDB((response: { _metadata: number, checkedInBeers: Beer | Array<Beer> }) => {
       this.setState({
         beers: this.state.beers.concat(response.checkedInBeers),
+<<<<<<< HEAD
         total: response._metadata.total_count,
+=======
+>>>>>>> development
       });
     });
   };
@@ -74,6 +77,7 @@ class App extends React.Component<void, State> {
 
   render() {
     return (
+<<<<<<< HEAD
       <div>
         <BrowserRouter>
           <div>
@@ -98,6 +102,30 @@ class App extends React.Component<void, State> {
           </div>
         </BrowserRouter>
       </div>
+=======
+      <BrowserRouter>
+        <div>
+          <Route render={({ history }) => <Header {...history} />} />
+          <Switch>
+            <Route
+              path="/"
+              exact
+              render={() => (
+                <CheckedInDashBoard
+                  beers={this.state.beers}
+                  onBeerCardEdit={this.editBeer}
+                  onBeerCardDelete={this.deleteBeer}
+                />
+              )}
+            />
+            <Route
+              path="/search"
+              render={props => <SearchDashBoard onBeerCardCreate={this.createBeerCard} {...props} />}
+            />
+          </Switch>
+        </div>
+      </BrowserRouter>
+>>>>>>> development
     );
   }
 }
