@@ -25,17 +25,20 @@ type Beer = {
 
 type State = {
   beers: Array<Beer>,
+  total: number,
 };
 
 class App extends React.Component<void, State> {
   state = {
     beers: [],
+    total: 0,
   };
 
   componentDidMount = () => {
-    getBeersFromDB((response: { _metadata: number, checkedInBeers: Beer | Array<Beer> }) => {
+    getBeersFromDB((response: { _metadata: { total_count: number }, checkedInBeers: Beer | Array<Beer> }) => {
       this.setState({
         beers: this.state.beers.concat(response.checkedInBeers),
+        total: response._metadata.total_count,
       });
     });
   };
