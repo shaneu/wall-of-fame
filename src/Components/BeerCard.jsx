@@ -1,6 +1,7 @@
 // @ flow
 
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 
 type Props = {
   abv: string,
@@ -16,10 +17,17 @@ type Props = {
 };
 
 function BeerCard(props: Props) {
+  let checkInTotal;
+  if (props.checkins) {
+    checkInTotal = <p>Checkins: {props.checkins}</p>;
+  }
   return (
     <div>
-      <h2>{props.name}</h2>
+      <h2>
+        <Link to={`/checkin/${props._id}`}>{props.name}</Link>
+      </h2>
       <p>{props.brewery}</p>
+      {checkInTotal}
       <img alt="beer label" src={props.imgUrl} />
       <h3>Description:</h3>
       <p>{props.description}</p>

@@ -3,7 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const searchBeer = require('./helpers');
-const MongoClient = require('mongodb').MongoClient;
+const { MongoClient, ObjectId } = require('mongodb');
 
 const app = express();
 app.use(bodyParser.json());
@@ -35,11 +35,31 @@ app.get('/api/beers', (req, res) => {
     });
 });
 
+app.get('/api/beers/:id', (req, res) => {
+  db
+    .collection('usersBeers')
+    .findOne({ _id: ObjectId(req.params.id) })
+    .then(beer => {
+      db
+        .collection('usersBeers')
+        .count({ id: beer.id })
+        .then(count => {
+          res.json({ beer, checkins: count });
+        });
+    })
+    .catch(error => {
+      console.log(error); // eslint-disable-line no-console
+      res.status.json({ message: `Internal server error ${error}` });
+    });
+});
+
 app.get('/api/beers/search/:beer', (req, res) => {
   searchBeer(req.params.beer)
     .then(response => res.json(response))
     .catch(error => console.log(error)); // eslint-disable-line no-console
 });
+
+// create a get route to search for an individual beer by its id. when I click the link on the header of a beer, it should send me to this route, where it will check if its'a beer I've had before, and if it is show the number, along with how many other people have had the same beer
 
 app.put('/api/beers', (req, res) => {
   db

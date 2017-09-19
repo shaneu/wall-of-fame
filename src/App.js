@@ -5,6 +5,7 @@ import * as React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { addBeerToDB, getBeersFromDB, updateBeer, deleteBeer } from './client-helpers';
 import CheckedInDashBoard from './Components/CheckedInDashBoard';
+import CheckIn from './Components/CheckIn';
 import SearchDashBoard from './Components/SearchDashBoard';
 import Header from './Components/Header';
 
@@ -93,6 +94,7 @@ class App extends React.Component<void, State> {
               path="/search"
               render={props => <SearchDashBoard onBeerCardCreate={this.createBeerCard} {...props} />}
             />
+            <Route path="/checkin" render={({ location }) => <CheckIn {...location} />} />
           </Switch>
         </div>
       </BrowserRouter>
