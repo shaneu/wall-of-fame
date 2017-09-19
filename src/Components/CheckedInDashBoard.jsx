@@ -29,21 +29,29 @@ type Props = {
 };
 
 function CheckedInDashBoard(props: Props) {
-  const checkInsPerBeer = individualBeerTotals(props.usersBeerInfo.beers);
-  const totalUnique = getNumberOfKeys(checkInsPerBeer);
-  return (
-    <div>
-      <h2>Checked In Beers</h2>
-      <h4>Total: {props.usersBeerInfo.total}</h4>
-      <h4>Unique: {totalUnique}</h4>
-      <EditableBeerCardList
-        beers={props.usersBeerInfo.beers}
-        onBeerCardEdit={props.onBeerCardEdit}
-        onBeerCardDelete={props.onBeerCardDelete}
-        checkInsPerBeer={checkInsPerBeer}
-      />
-    </div>
-  );
+  if (props.usersBeerInfo.beers.length > 0) {
+    const checkInsPerBeer = individualBeerTotals(props.usersBeerInfo.beers);
+    const totalUnique = getNumberOfKeys(checkInsPerBeer);
+    return (
+      <div>
+        <h2>Checked In Beers</h2>
+        <h4>Total: {props.usersBeerInfo.total}</h4>
+        <h4>Unique: {totalUnique}</h4>
+        <EditableBeerCardList
+          beers={props.usersBeerInfo.beers}
+          onBeerCardEdit={props.onBeerCardEdit}
+          onBeerCardDelete={props.onBeerCardDelete}
+          checkInsPerBeer={checkInsPerBeer}
+        />
+      </div>
+    );
+  } 
+    return (
+      <div>
+        <h2>Drink some beer!</h2>
+      </div>
+    );
+  
 }
 
 export default CheckedInDashBoard;
