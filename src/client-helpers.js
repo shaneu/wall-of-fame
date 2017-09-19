@@ -42,6 +42,17 @@ export function getBeersFromDB(sucess: Function): void {
     .then(sucess);
 }
 
+export function getCheckedInBeer(id, sucess) {
+  fetch(`/api/beers/${id}`, {
+    headers: {
+      Accept: 'application/json',
+    },
+  })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(sucess);
+}
+
 export function updateBeer(userInput: { id: number, rating: string, notes: string }): void {
   fetch('/api/beers', {
     method: 'put',
