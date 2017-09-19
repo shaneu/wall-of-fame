@@ -35,7 +35,7 @@ class App extends React.Component<void, State> {
   };
 
   componentDidMount = () => {
-    getBeersFromDB((response: { _metadata: number, checkedInBeers: Beer | Array<Beer> }) => {
+    getBeersFromDB((response: { _metadata: { total_count: number }, checkedInBeers: Beer | Array<Beer> }) => {
       this.setState({
         beers: this.state.beers.concat(response.checkedInBeers),
         total: response._metadata.total_count,
