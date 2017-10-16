@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 
 type Props = {
   abv: string,
@@ -17,6 +18,7 @@ type Props = {
 };
 
 function BeerCard(props: Props) {
+  console.log();
   let checkInTotal;
   if (props.checkins) {
     checkInTotal = <p>Checkins: {props.checkins}</p>;
@@ -41,7 +43,7 @@ function BeerCard(props: Props) {
           <h3>Rating: {props.rating}/5</h3>
           <h3>Notes:</h3>
           <p>{props.notes}</p>
-          <h3>Added on: {props.dateAdded}</h3>
+          <p>Added: {distanceInWordsToNow(props.dateAdded)}</p>
         </div>
       )}
     </div>
