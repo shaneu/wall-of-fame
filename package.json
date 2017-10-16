@@ -4,9 +4,12 @@
   "private": true,
   "dependencies": {
     "body-parser": "^1.18.0",
+    "connect-flash": "^0.1.1",
+    "dotenv": "^4.0.0",
     "express": "^4.15.4",
     "flow-bin": "^0.54.1",
     "mongodb": "^2.2.31",
+    "mongoose": "^4.12.2",
     "node-fetch": "^1.7.3",
     "query-string": "^5.0.0",
     "react": "^15.6.1",
@@ -26,7 +29,7 @@
   },
   "scripts": {
     "flow": "flow",
-    "start": "react-scripts start & nodemon server.js",
+    "start": "react-scripts start & nodemon start.js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",

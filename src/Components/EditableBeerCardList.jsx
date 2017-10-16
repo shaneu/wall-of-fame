@@ -30,6 +30,7 @@ function EditableBeerCardList(props: Props) {
   if (props.beers.length > 0) {
     cards = props.beers.map(beer => (
       <EditableBeerCard
+        showDetailCard={false}
         key={beer._id ? beer._id : beer.id}
         {...beer}
         onBeerCardCreate={props.onBeerCardCreate}

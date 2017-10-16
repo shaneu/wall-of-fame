@@ -42,32 +42,33 @@ export function getBeersFromDB(sucess: Function): void {
     .then(sucess);
 }
 
-export function getCheckedInBeer(id, sucess) {
-  fetch(`/api/beers/${id}`, {
-    headers: {
-      Accept: 'application/json',
-    },
-  })
-    .then(checkStatus)
-    .then(parseJSON)
-    .then(sucess);
-}
-
-export function updateBeer(userInput: { id: number, rating: string, notes: string }): void {
-  fetch('/api/beers', {
-    method: 'put',
-    body: JSON.stringify(userInput),
+export function getBeerInfo(beerId) {
+  return fetch(`/api/beers/info/${beerId}`, {
     headers: {
       Accept: 'application/json',
       'Content-type': 'application/json',
     },
-  }).then(checkStatus);
+  })
+    .then(checkStatus)
+    .then(parseJSON);
+}
+
+export function updateBeer(userInput: { _id: string, rating: string, notes: string }): void {
+  return fetch(`/api/beers/${userInput._id}`, {
+    method: 'put',
+    body: JSON.stringify({ rating: userInput.rating, notes: userInput.notes }),
+    headers: {
+      Accept: 'application/json',
+      'Content-type': 'application/json',
+    },
+  })
+    .then(checkStatus)
+    .then(parseJSON);
 }
 
 export function deleteBeer(id: number) {
-  fetch('api/beers', {
+  fetch(`api/beers/${id}`, {
     method: 'delete',
-    body: JSON.stringify({ id }),
     headers: {
       Accept: 'application/json',
       'Content-type': 'application/json',
@@ -76,7 +77,7 @@ export function deleteBeer(id: number) {
 }
 
 export function addBeerToDB(beer: Beer, sucess: Function) {
-  fetch('/api/beers', {
+  return fetch('/api/beers', {
     method: 'post',
     body: JSON.stringify(beer),
     headers: {
@@ -85,8 +86,7 @@ export function addBeerToDB(beer: Beer, sucess: Function) {
     },
   })
     .then(checkStatus)
-    .then(parseJSON)
-    .then(sucess);
+    .then(parseJSON);
 }
 
 export function searchBeer(beer) {
@@ -98,18 +98,26 @@ export function searchBeer(beer) {
     .then(parseJSON);
 }
 
-function removeFunctionFromObj(obj) {
-  return Object.keys(obj).reduce((acc, cur) => {
-    if (typeof obj[cur] !== 'function') {
-      acc[cur] = obj[cur];
-    }
-    return acc;
-  }, {});
-}
+// function getCurrentDate() {
+//   const date = new Date();
+//   return date.toLocaleDateString();
+// }
 
-function getCurrentDate() {
-  const date = new Date();
-  return { dateAdded: date.toLocaleDateString() };
+function formatBeer(beer) {
+  const formattedBeer = {
+    abv: beer.abv,
+    brewery: beer.brewery,
+    checkinCount: beer.checkinCount,
+    description: beer.description,
+    ibu: beer.ibu,
+    id: beer.id,
+    imgUrl: beer.imgUrl,
+    name: beer.name,
+    notes: beer.notes,
+    style: beer.style,
+    rating: beer.rating,
+  };
+  return formattedBeer;
 }
 
 function mergeObjects(...objs) {
@@ -117,7 +125,8 @@ function mergeObjects(...objs) {
 }
 
 export function formatBeerToSubmit(obj, userInput) {
-  return mergeObjects(removeFunctionFromObj(obj), getCurrentDate(), userInput);
+  const beerToFormat = mergeObjects(obj, userInput);
+  return formatBeer(beerToFormat);
 }
 
 export function parseQueryString(qString) {

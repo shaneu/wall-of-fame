@@ -2,101 +2,17 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const searchBeer = require('./helpers');
-const { MongoClient, ObjectId } = require('mongodb');
+const routes = require('./routes/index');
+const errorHandlers = require('./handlers/errorHandlers');
 
 const app = express();
 app.use(bodyParser.json());
-app.set('port', process.env.port || 3001);
+app.use(bodyParser.urlencoded({ extended: true }));
 
-const mongoURI = 'mongodb://127.0.0.1:27017/usersCheckedInBeers';
+app.set('port', process.env.PORT || 3001);
 
-let db;
+app.use('/api/beers', routes);
 
-MongoClient.connect(mongoURI)
-  .then(connection => {
-    db = connection;
-    app.listen(app.get('port'), () => console.log(`Api server is running on http://localhost:${app.get('port')}`)); // eslint-disable-line no-console
-  })
-  .catch(error => console.log(`Error in mongodb: ${error}`)); // eslint-disable-line no-console
+app.use(errorHandlers.logErrors);
 
-app.get('/api/beers', (req, res) => {
-  db
-    .collection('usersBeers')
-    .find()
-    .toArray()
-    .then(beers => {
-      const metadata = { total_count: beers.length };
-      res.json({ _metadata: metadata, checkedInBeers: beers });
-    })
-    .catch(error => {
-      console.log(error); // eslint-disable-line no-console
-      res.status.json({ message: `Internal server error ${error}` });
-    });
-});
-
-app.get('/api/beers/:id', (req, res) => {
-  db
-    .collection('usersBeers')
-    .findOne({ _id: ObjectId(req.params.id) })
-    .then(beer => {
-      db
-        .collection('usersBeers')
-        .count({ id: beer.id })
-        .then(count => {
-          res.json({ beer, checkins: count });
-        });
-    })
-    .catch(error => {
-      console.log(error); // eslint-disable-line no-console
-      res.status.json({ message: `Internal server error ${error}` });
-    });
-});
-
-app.get('/api/beers/search/:beer', (req, res) => {
-  searchBeer(req.params.beer)
-    .then(response => res.json(response))
-    .catch(error => console.log(error)); // eslint-disable-line no-console
-});
-
-// create a get route to search for an individual beer by its id. when I click the link on the header of a beer, it should send me to this route, where it will check if its'a beer I've had before, and if it is show the number, along with how many other people have had the same beer
-
-app.put('/api/beers', (req, res) => {
-  db
-    .collection('usersBeers')
-    .update({ id: req.body.id }, { $set: { rating: req.body.rating, notes: req.body.notes } })
-    .then(response => res.json(response.result))
-    .catch(error => {
-      console.log(error); // eslint-disable-line no-console
-      res.status(500).json({ message: `Internal server error: ${error}` });
-    });
-});
-
-app.post('/api/beers', (req, res) => {
-  db
-    .collection('usersBeers')
-    .insertOne(req.body)
-    .then(result =>
-      db
-        .collection('usersBeers')
-        .find({ _id: result.insertedId })
-        .limit(1)
-        .next(),
-    )
-    .then(newBeer => res.json(newBeer))
-    .catch(error => {
-      console.log(error); // eslint-disable-line no-console
-      res.status(500).json({ message: `Internal server error: ${error}` });
-    });
-});
-
-app.delete('/api/beers', (req, res) => {
-  db
-    .collection('usersBeers')
-    .remove({ id: req.body.id })
-    .then(response => res.json(response.result))
-    .catch(error => {
-      console.log(error); // eslint-disable-line no-console
-      res.status(500).json({ message: `Internal server error: ${error}` });
-    });
-});
+module.exports = app;
