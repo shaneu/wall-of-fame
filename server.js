@@ -4,7 +4,8 @@ const express = require('express');
 const expressValidator = require('express-validator');
 const bodyParser = require('body-parser');
 const passport = require('passport');
-const routes = require('./routes/index');
+const beerRouter = require('./routes/api');
+const authRouter = require('./routes/auth');
 const errorHandlers = require('./handlers/errorHandlers');
 require('./handlers/passport');
 
@@ -18,7 +19,8 @@ app.use(passport.session());
 
 app.set('port', process.env.PORT || 3001);
 
-app.use('/', routes);
+app.use('/api/beers', beerRouter);
+app.use('/auth', authRouter);
 
 app.use(errorHandlers.logErrors);
 
