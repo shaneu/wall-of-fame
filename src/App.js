@@ -8,6 +8,8 @@ import CheckedInDashBoard from './Components/CheckedInDashBoard';
 import DetailDashboard from './Components/DetailDashboard';
 import SearchDashBoard from './Components/SearchDashBoard';
 import Header from './Components/Header';
+import LoginForm from './Components/LoginForm';
+import RegisterForm from './Components/RegisterForm';
 
 type Beer = {
   _id?: string,
@@ -98,6 +100,8 @@ class App extends React.Component<void, State> {
                 <DetailDashboard pathname={location.pathname} onBeerCardCreate={this.createBeerCard} />
               )}
             />
+            <Route path="/login" component={LoginForm} />
+            <Route path="/register" component={RegisterForm} />
           </Switch>
         </div>
       </BrowserRouter>

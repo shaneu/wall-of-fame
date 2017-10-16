@@ -9,7 +9,10 @@ mongoose.Promise = global.Promise;
 mongoose.connection.on('error', err => {
   console.error(err.message); // eslint-disable-line no-console
 });
+
 require('./models/Beer');
+require('./models/User');
+
 const app = require('./server');
 
 app.set('port', process.env.PORT || 3001);
