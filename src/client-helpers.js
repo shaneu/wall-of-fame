@@ -130,7 +130,7 @@ export function parseQueryString(qString) {
 }
 
 export function registerUser(user) {
-  fetch('/register', {
+  fetch('/auth', {
     method: 'post',
     body: JSON.stringify(user),
     headers: {

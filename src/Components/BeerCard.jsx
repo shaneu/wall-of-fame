@@ -43,7 +43,7 @@ function BeerCard(props: Props) {
           <h3>Rating: {props.rating}/5</h3>
           <h3>Notes:</h3>
           <p>{props.notes}</p>
-          <p>Added: {distanceInWordsToNow(props.dateAdded)}</p>
+          <p>Added: {distanceInWordsToNow(props.dateAdded)} ago</p>
         </div>
       )}
     </div>
