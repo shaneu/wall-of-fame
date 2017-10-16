@@ -29,6 +29,7 @@ function EditableBeerCardList(props: Props) {
   let cards;
   if (props.beers.length > 0) {
     cards = props.beers.map(beer => (
+<<<<<<< HEAD
         <EditableBeerCard
           key={beer._id ? beer._id : beer.id}
           {...beer}
@@ -38,6 +39,17 @@ function EditableBeerCardList(props: Props) {
           checkInTotal={props.checkInsPerBeer[beer.id]}
         />
       ));
+=======
+      <EditableBeerCard
+        showDetailCard={false}
+        key={beer._id ? beer._id : beer.id}
+        {...beer}
+        onBeerCardCreate={props.onBeerCardCreate}
+        onBeerCardEdit={props.onBeerCardEdit}
+        onBeerCardDelete={props.onBeerCardDelete}
+      />
+    ));
+>>>>>>> development
   }
   if (cards) {
     utilSpace = cards;

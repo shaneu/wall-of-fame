@@ -2,24 +2,20 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const searchBeer = require('./helpers');
-const { MongoClient, ObjectId } = require('mongodb');
+const routes = require('./routes/index');
+const errorHandlers = require('./handlers/errorHandlers');
 
 const app = express();
 app.use(bodyParser.json());
-app.set('port', process.env.port || 3001);
+app.use(bodyParser.urlencoded({ extended: true }));
 
-const mongoURI = 'mongodb://127.0.0.1:27017/usersCheckedInBeers';
+app.set('port', process.env.PORT || 3001);
 
-let db;
+app.use('/api/beers', routes);
 
-MongoClient.connect(mongoURI)
-  .then(connection => {
-    db = connection;
-    app.listen(app.get('port'), () => console.log(`Api server is running on http://localhost:${app.get('port')}`)); // eslint-disable-line no-console
-  })
-  .catch(error => console.log(`Error in mongodb: ${error}`)); // eslint-disable-line no-console
+app.use(errorHandlers.logErrors);
 
+<<<<<<< HEAD
 app.get('/api/beers', (req, res) => {
   db
     .collection('usersBeers')
@@ -94,3 +90,6 @@ app.delete('/api/beers', (req, res) => {
       res.status(500).json({ message: `Internal server error: ${error}` });
     });
 });
+=======
+module.exports = app;
+>>>>>>> development

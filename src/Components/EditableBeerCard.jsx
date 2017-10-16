@@ -3,10 +3,12 @@
 import * as React from 'react';
 import ActionButtons from './ActionButtons';
 import BeerCard from './BeerCard';
+import DetailCard from './DetailCard';
 import EditForm from './EditForm';
 import { formatBeerToSubmit } from '../client-helpers';
 
 type Props = {
+  _id: string,
   abv: string,
   dateAdded?: string,
   description: string,
@@ -63,18 +65,21 @@ class EditableBeerCard extends React.Component<void, Props, void> {
 
       return (
         <div>
-          <EditForm
-            id={this.props.id}
-            onCancelClick={this.showEditForm}
-            onSubmitAction={onSubmitAction}
-          />
+          <EditForm _id={this.props._id} onCancelClick={this.showEditForm} onSubmitAction={onSubmitAction} />
         </div>
       );
     }
 
+    let card;
+    if (this.props.showDetailCard) {
+      card = <DetailCard {...this.props} />;
+    } else {
+      card = <BeerCard {...this.props} />;
+    }
+
     return (
       <div>
-        <BeerCard {...this.props} />
+        {card}
         <ActionButtons
           showEditButton={!!this.props.dateAdded}
           onEditClick={this.showEditForm}

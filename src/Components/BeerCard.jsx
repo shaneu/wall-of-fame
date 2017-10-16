@@ -24,7 +24,7 @@ function BeerCard(props: Props) {
   return (
     <div>
       <h2>
-        <Link to={`/checkin/${props._id}`}>{props.name}</Link>
+        <Link to={`/beer/${props.id}`}>{props.name}</Link>
       </h2>
       <p>{props.brewery}</p>
       {checkInTotal}
@@ -35,6 +35,7 @@ function BeerCard(props: Props) {
       <h4>Ibu: {props.ibu}</h4>
       <h4>Style:</h4>
       <p>{props.style}</p>
+      <p>Checkins: {props.checkinCount}</p>
       {props.dateAdded && (
         <div>
           <h3>Rating: {props.rating}/5</h3>

@@ -5,7 +5,7 @@ import * as React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { addBeerToDB, getBeersFromDB, updateBeer, deleteBeer } from './client-helpers';
 import CheckedInDashBoard from './Components/CheckedInDashBoard';
-import CheckIn from './Components/CheckIn';
+import DetailDashboard from './Components/DetailDashboard';
 import SearchDashBoard from './Components/SearchDashBoard';
 import Header from './Components/Header';
 
@@ -32,37 +32,35 @@ type State = {
 class App extends React.Component<void, State> {
   state = {
     beers: [],
-    total: 0,
   };
 
   componentDidMount = () => {
     getBeersFromDB((response: { _metadata: { total_count: number }, checkedInBeers: Beer | Array<Beer> }) => {
       this.setState({
         beers: this.state.beers.concat(response.checkedInBeers),
-        total: response._metadata.total_count,
       });
     });
   };
 
   createBeerCard = (beer: Beer) => {
-    addBeerToDB(beer, response =>
+    addBeerToDB(beer).then(response =>
       this.setState({
         beers: this.state.beers.concat(response),
       }),
     );
   };
 
-  editBeer = (userInput: { id: number, rating: string, notes: string }) => {
-    this.setState({
-      beers: this.state.beers.map(beer => {
-        if (beer.id === userInput.id) {
-          return Object.assign({}, beer, userInput);
-        }
-        return beer;
-      }),
+  editBeer = (userInput: { _id: string, rating: string, notes: string }) => {
+    updateBeer(userInput).then(response => {
+      this.setState({
+        beers: this.state.beers.map(beer => {
+          if (beer._id === response._id) {
+            return Object.assign({}, beer, userInput);
+          }
+          return beer;
+        }),
+      });
     });
-
-    updateBeer(userInput);
   };
 
   deleteBeer = (beerCardId: number) => {
@@ -94,7 +92,12 @@ class App extends React.Component<void, State> {
               path="/search"
               render={props => <SearchDashBoard onBeerCardCreate={this.createBeerCard} {...props} />}
             />
-            <Route path="/checkin" render={({ location }) => <CheckIn {...location} />} />
+            <Route
+              path="/beer"
+              render={({ location }) => (
+                <DetailDashboard pathname={location.pathname} onBeerCardCreate={this.createBeerCard} />
+              )}
+            />
           </Switch>
         </div>
       </BrowserRouter>
