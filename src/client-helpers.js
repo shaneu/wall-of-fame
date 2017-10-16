@@ -98,11 +98,6 @@ export function searchBeer(beer) {
     .then(parseJSON);
 }
 
-// function getCurrentDate() {
-//   const date = new Date();
-//   return date.toLocaleDateString();
-// }
-
 function formatBeer(beer) {
   const formattedBeer = {
     abv: beer.abv,
@@ -132,4 +127,15 @@ export function formatBeerToSubmit(obj, userInput) {
 export function parseQueryString(qString) {
   const query = queryString.parse(qString);
   return query.q;
+}
+
+export function registerUser(user) {
+  fetch('/register', {
+    method: 'post',
+    body: JSON.stringify(user),
+    headers: {
+      Accept: 'application/json',
+      'Content-type': 'application/json',
+    },
+  });
 }
