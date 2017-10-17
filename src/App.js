@@ -7,6 +7,7 @@ import { addBeerToDB, getBeersFromDB, updateBeer, deleteBeer } from './client-he
 import CheckedInDashBoard from './Components/CheckedInDashBoard';
 import DetailDashboard from './Components/DetailDashboard';
 import SearchDashBoard from './Components/SearchDashBoard';
+import FlashMessages from './Components/FlashMessages';
 import Header from './Components/Header';
 import LoginForm from './Components/LoginForm';
 import RegisterForm from './Components/RegisterForm';
@@ -26,14 +27,21 @@ type Beer = {
   style: string,
 };
 
+type Flash = {
+  message: String,
+  category: String,
+};
+
 type State = {
   beers: Array<Beer>,
   total: number,
+  flashes: Array<Flash>,
 };
 
 class App extends React.Component<void, State> {
   state = {
     beers: [],
+    flashes: [],
   };
 
   componentDidMount = () => {
@@ -45,11 +53,13 @@ class App extends React.Component<void, State> {
   };
 
   createBeerCard = (beer: Beer) => {
-    addBeerToDB(beer).then(response =>
+    addBeerToDB(beer).then(response => {
+      const beersArray = this.state.beers.slice();
+      beersArray.unshift(response);
       this.setState({
-        beers: this.state.beers.concat(response),
-      }),
-    );
+        beers: beersArray,
+      });
+    });
   };
 
   editBeer = (userInput: { _id: string, rating: string, notes: string }) => {
@@ -78,6 +88,7 @@ class App extends React.Component<void, State> {
       <BrowserRouter>
         <div>
           <Route render={({ history }) => <Header {...history} />} />
+          <FlashMessages flashes={this.state.flashes} />
           <Switch>
             <Route
               path="/"

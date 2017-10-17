@@ -4,7 +4,7 @@ const { searchBeer, getBeerInfo } = require('../helpers');
 const Beer = mongoose.model('Beer');
 
 exports.getBeers = async (req, res) => {
-  const beers = await Beer.find();
+  const beers = await Beer.find().sort({ dateAdded: -1 });
   const metadata = { total_count: beers.length };
   res.json({ _metadata: metadata, checkedInBeers: beers });
 };
